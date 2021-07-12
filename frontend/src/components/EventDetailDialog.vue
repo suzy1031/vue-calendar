@@ -7,13 +7,14 @@
     </v-card-actions>
 
     <v-card-title>
-      <DialogSection icon="mdi-square" :color="event.color || 'blue'">
+      <DialogSection icon="mdi-square" :color="event.color">
         {{ event.name }}
       </DialogSection>
     </v-card-title>
     <v-card-text>
       <DialogSection icon="mdi-clock-time-three-outline">
-        {{ event.start.toLocaleString() }} ~ {{ event.end.toLocaleString() }}
+        {{ event.startDate }} {{ event.timed ? event.startTime : '' }} ~
+        {{ event.endDate }} {{ event.timed ? event.endTime : '' }}
       </DialogSection>
     </v-card-text>
     <v-card-text>
