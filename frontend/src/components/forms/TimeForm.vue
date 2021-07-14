@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { getTimeIntervalList } from '../functions/datetime';
+import { getTimeIntervalList } from '../../functions/datetime';
 
 export default {
   name: 'TimeForm',

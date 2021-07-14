@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-sheet height="6vh" class="d-flex align-center">
+    <v-sheet height="6vh" class="d-flex align-center" color="grey lighten-3">
       <v-btn outlined small class="ma-4" @click="setToday">今日</v-btn>
       <v-btn icon @click="$refs.calendar.prev()">
         <v-icon>mdi-chevron-left</v-icon>
@@ -11,19 +11,26 @@
       <v-toolbar-title>{{ title }}</v-toolbar-title>
     </v-sheet>
     <v-sheet height="94vh">
-      <v-calendar
-        ref="calendar"
-        v-model="value"
-        :events="events"
-        @change="fetchEvents"
-        locale="ja-jp"
-        :day-format="(timestamp) => new Date(timestamp.date).getDate()"
-        :month-format="
-          (timestamp) => new Date(timestamp.date).getMonth() + 1 + '/'
-        "
-        @click:event="showEvent"
-        @click:day="initEvent"
-      ></v-calendar>
+      <v-sheet height="94vh" class="d-flex">
+        <v-sheet width="200px">
+          <CalendarList />
+        </v-sheet>
+        <v-sheet class="flex">
+          <v-calendar
+            ref="calendar"
+            v-model="value"
+            :events="events"
+            @change="fetchEvents"
+            locale="ja-jp"
+            :day-format="(timestamp) => new Date(timestamp.date).getDate()"
+            :month-format="
+              (timestamp) => new Date(timestamp.date).getMonth() + 1 + ' /'
+            "
+            @click:event="showEvent"
+            @click:day="initEvent"
+          ></v-calendar>
+        </v-sheet>
+      </v-sheet>
     </v-sheet>
 
     <v-dialog :value="event !== null" width="600" @click:outside="closeDialog">
@@ -36,15 +43,17 @@
 <script>
 import { format } from 'date-fns';
 import { mapGetters, mapActions } from 'vuex';
-import EventDetailDialog from './EventDetailDialog.vue';
-import EventFormDialog from './EventFormDialog.vue';
-import { getDefaultStartAndEnd } from '../functions/datetime';
+import EventDetailDialog from '../events/EventDetailDialog';
+import EventFormDialog from '../events/EventFormDialog';
+import CalendarList from '../calendars/CalendarList.vue';
+import { getDefaultStartAndEnd } from '../../functions/datetime';
 
 export default {
   name: 'Calendar',
   components: {
     EventDetailDialog,
     EventFormDialog,
+    CalendarList,
   },
   data: () => ({
     value: format(new Date(), 'yyyy/MM/dd'),

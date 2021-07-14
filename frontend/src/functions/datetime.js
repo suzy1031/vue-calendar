@@ -1,4 +1,5 @@
 import { format, addHours } from 'date-fns';
+import { ja } from 'date-fns/locale';
 
 export const getTimeIntervalList = () => {
   // 15分間隔の時間のリストを返す
@@ -35,4 +36,8 @@ export const isGreaterEndThanStart = (
     const end = new Date(`${endDate} ${endTime}`).getTime();
     return end > start;
   }
+};
+
+export const formatDateToJa = (date) => {
+  return format(new Date(date), 'M月d日(E)', { locale: ja });
 };
