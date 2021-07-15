@@ -18,9 +18,23 @@
             v-model="calendar.visibility"
             :color="calendar.color"
             :label="calendar.name"
+            @click="toggleVisibility(calendar)"
             class="pa-0"
           ></v-checkbox>
         </v-list-item-content>
+        <v-list-item-action class="ma-0">
+          <v-menu transition="scale-transition" offset-y min-width="100px">
+            <template v-slot:activator="{ on }">
+              <v-btn icon v-on="on">
+                <v-icon size="12px">mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item @click="edit(calendar)">編集</v-list-item>
+              <v-list-item @click="del(calendar)">削除</v-list-item>
+            </v-list>
+          </v-menu>
+        </v-list-item-action>
       </v-list-item>
     </v-list-item-group>
     <v-dialog
@@ -50,7 +64,7 @@ export default {
     this.fetchCalendars();
   },
   methods: {
-    ...mapActions('calendars', ['fetchCalendars', 'setCalendar']),
+    ...mapActions('calendars', ['fetchCalendars', 'updateCalendar', 'setCalendar', 'deleteCalendar']),
     initCalendar() {
       this.setCalendar({
         name: '',
@@ -59,6 +73,15 @@ export default {
     },
     closeDialog() {
       this.setCalendar(null);
+    },
+    edit(calendar) {
+      this.setCalendar(calendar);
+    },
+    del(calendar) {
+      this.deleteCalendar(calendar.id);
+    },
+    toggleVisibility(calendar) {
+      this.updateCalendar(calendar);
     },
   },
 };
